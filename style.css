@@ -1,0 +1,270 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  background-repeat: no-repeat;
+}
+
+:root {
+  --print-margin: 25mm 20mm 20mm;
+  --print-font-family: sans-serif;
+  --print-font-size: 13pt;
+  --print-line-height: 1.5;
+  --print-color: #000;
+}
+
+@page {
+  size: A4;
+  margin: var(--print-margin);
+}
+
+body {
+  margin: 0;
+  background: #ccc;
+  @media print {
+    background: none;
+  }
+}
+
+.PreviewPaper {
+  margin: 0 auto;
+  padding: var(--print-margin);
+  width: 210mm;
+  min-height: 297mm;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  @media print {
+    padding: 0;
+    box-shadow: none;
+  }
+}
+
+.Invoice {
+  /* タイポグラフィ */
+  font-family: var(--print-font-family);
+  font-size: var(--print-font-size);
+  line-height: var(--print-line-height);
+  color: var(--print-color);
+
+  /* リセット */
+  & :where(h1, h2, p, dl, dt, dd, table, th, td, small) {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    font-weight: normal;
+  }
+
+  /* レイアウト */
+  display: grid;
+  grid-template:
+    'header header' auto
+    'left right' auto
+    'left right' auto
+    'detail detail' auto
+    'remark remark' auto
+    / 1fr 0.5fr;
+  gap: 15mm 15mm;
+  & > [data-area='header'] {
+    grid-area: header;
+  }
+  & > [data-area='right'] {
+    grid-area: right;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 2em;
+  }
+  & > [data-area='left'] {
+    grid-area: left;
+    display: grid;
+    gap: 2em;
+  }
+  & > [data-area='detail'] {
+    grid-area: detail;
+  }
+  & > [data-area='remark'] {
+    grid-area: remark;
+  }
+}
+
+/* 見出し */
+.Invoice-heading {
+  font-size: 160%;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* 右上 */
+.Invoice-meta {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 0.2em 0.5em;
+  font-size: 80%;
+  text-align: right;
+}
+
+/* 自分の情報 */
+.Invoice-from {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6em;
+  & > h2 {
+    position: relative;
+    font-size: 100%;
+    & > img {
+      --width: 11mm;
+      --adjust-x: -3mm;
+      --adjust-y: 0mm;
+      position: absolute;
+      left: calc(100% + 0.2em + var(--adjust-x));
+      top: calc(100% - 0.75em + var(--adjust-y));
+      translate: 0% -50%;
+      width: var(--width);
+      height: auto;
+      rotate: 10deg;
+      filter: blur(0.05mm) opacity(0.6);
+    }
+  }
+  & > p {
+    font-size: 80%;
+    & > span {
+      display: block;
+    }
+  }
+}
+
+/* 宛先 */
+.Invoice-to {
+  display: grid;
+  gap: 1em;
+  & > h2 {
+    font-size: 120%;
+    & > small {
+      font-size: 85%;
+    }
+  }
+  & > p {
+    font-size: 80%;
+  }
+}
+
+/* 件名・金額 */
+.Invoice-total {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1em;
+  & > h2 {
+    display: flex;
+    gap: 0.5em;
+    & > span:first-child {
+      white-space: nowrap;
+    }
+  }
+  & > p {
+    border-bottom: 1pt solid;
+    padding-right: 0.5em;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    min-width: 15em;
+    gap: 1em;
+    & > span:nth-child(1) {
+      font-size: 100%;
+    }
+    & > span:nth-child(2) {
+      font-size: 120%;
+      font-weight: bold;
+      & > small {
+        margin-left: 0.2em;
+        font-size: 75%;
+      }
+    }
+  }
+  & > dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.2em 0.8em;
+    font-size: 80%;
+  }
+}
+
+/* 詳細テーブル */
+.Invoice-detail {
+  /* 通常の線と、ボディとフッター間の太め線 */
+  --border-normal: 0.5pt solid;
+  --border-thick: 1pt solid;
+
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 85%;
+
+  & :is(th, td) {
+    border-bottom: var(--border-normal);
+    padding: 0.4em 0.5em 0.35em;
+    text-align: center;
+    /* 最後のセル（金額）の両余白広め */
+    &:last-child {
+      padding-inline: 1em;
+    }
+    /* ヘッダー */
+    thead & {
+      border-top-width: 0;
+      padding-top: 0;
+      white-space: nowrap;
+    }
+    /* ボディ */
+    tbody & {
+      /* 取引日の横幅（colspan属性があるときは見出し列になる） */
+      &:nth-child(1):not(colspan) {
+        width: 6.5em;
+        time {
+          font-size: 80%;
+        }
+      }
+      /* 摘要 は左寄せ */
+      &:nth-child(2) {
+        text-align: left;
+      }
+      /* 数量, 単価, 金額 は改行無しで詰める */
+      &:nth-child(n + 3) {
+        width: 0%;
+        white-space: nowrap;
+      }
+      /* 単価, 金額 は右寄せ */
+      &:nth-child(n + 4) {
+        text-align: right;
+      }
+      /* ボディとフッターの間の線は太く */
+      tr:last-child & {
+        border-bottom: var(--border-thick);
+      }
+    }
+    /* フッター */
+    tfoot & {
+      text-align: right;
+      tr:last-child & {
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+/* 備考欄 */
+.Invoice-remark {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35em;
+  & > h2 {
+    border-bottom: 1px solid;
+    padding: 0 1em 0.3em 0;
+    font-size: 85%;
+  }
+  & > p {
+    font-size: 85%;
+  }
+}

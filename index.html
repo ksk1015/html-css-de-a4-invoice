@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>HTML,CSSでA4請求書</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="PreviewPaper">
+      <article class="Invoice">
+        <div data-area="header">
+          <h1 class="Invoice-heading">請求書</h1>
+        </div>
+        <div data-area="right">
+          <dl class="Invoice-meta">
+            <dt>請求日:</dt>
+            <dd>2024年1月30日</dd>
+            <dt>請求書番号:</dt>
+            <dd>SEIKYU-012345</dd>
+          </dl>
+          <div class="Invoice-from">
+            <h2>
+              <span>則巻 千兵衛</span>
+              <!-- <img src="./stamp.png" alt="印鑑" /> -->
+            </h2>
+            <p>
+              〒123-4567<br />
+              ゲンゴロウ島ペンギン村<br />
+              モモンガ1番地
+            </p>
+            <p>
+              <span>Tel: 012-3456-7890</span>
+              <span>Email: senbe@norimaki.com</span>
+              <span>登録番号: T0123456789012</span>
+            </p>
+          </div>
+        </div>
+        <div data-area="left">
+          <div class="Invoice-to">
+            <h2>カフェポット <small>御中</small></h2>
+            <p>
+              〒123-4567<br />
+              ゲンゴロウ島ペンギン村<br />
+              カモノハシ4番地
+            </p>
+          </div>
+          <div class="Invoice-total">
+            <h2>
+              <span>件名</span>
+              <span>ホームページ リニューアル</span>
+            </h2>
+            <p>
+              <span>請求金額</span>
+              <span>264,000<small>円</small></span>
+            </p>
+            <dl>
+              <dt>支払期日</dt>
+              <dd>2024年2月28日</dd>
+              <dt>振込先</dt>
+              <dd>
+                ペンギン村銀行<br />
+                0123-001-1-0123456<br />
+                ノリマキ センベエ
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div data-area="detail">
+          <table class="Invoice-detail">
+            <thead>
+              <tr>
+                <th scope="col">取引日</th>
+                <th scope="col">摘要</th>
+                <th scope="col">数量</th>
+                <th scope="col">単価</th>
+                <th scope="col">金額</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><time datetime="2024-01-30">2024-01-30</time></td>
+                <td>打ち合わせ</td>
+                <td>2日</td>
+                <td>20,000</td>
+                <td>40,000</td>
+              </tr>
+              <tr>
+                <td><time datetime="2024-01-30">2024-01-30</time></td>
+                <td>
+                  写真撮影
+                  長い摘要サンプル長い摘要サンプル長い摘要サンプル長い摘要サンプル
+                </td>
+                <td>1日</td>
+                <td>30,000</td>
+                <td>60,000</td>
+              </tr>
+              <tr>
+                <td><time datetime="">2024-01-30</time></td>
+                <td>ホームページ作成</td>
+                <td>5日</td>
+                <td>30,000</td>
+                <td>150,000</td>
+              </tr>
+              <tr>
+                <td><time datetime="">2024-01-30</time></td>
+                <td>特別割引♥</td>
+                <td>1</td>
+                <td>-10,000</td>
+                <td>-10,000</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th colspan="4" scope="row">小計</th>
+                <td>240,000</td>
+              </tr>
+              <tr>
+                <th colspan="4" scope="row">消費税</th>
+                <td>24,000</td>
+              </tr>
+              <tr>
+                <th colspan="4" scope="row">合計</th>
+                <td>264,000</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <div data-area="remark">
+          <div class="Invoice-remark">
+            <h2>備考欄</h2>
+            <p>
+              これは請求書のサンプルです。<br />
+              架空の内容であり、実際の取引はありません。
+            </p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </body>
+</html>
